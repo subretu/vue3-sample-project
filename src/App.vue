@@ -1,7 +1,12 @@
 <template>
-  <router-view />
+  <v-app>
+    <v-app-bar color="primary" dark app clipped-left>
+        <v-tabs>
+          <v-tab to="/userlist">USERLIST</v-tab>
+        </v-tabs>
+    </v-app-bar>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
-
-<script lang="ts" setup>
-  //
-</script>
