@@ -14,7 +14,17 @@
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
-          <v-data-table :headers="headers" :items="items"> </v-data-table>
+          <v-data-table
+            v-model="selected"
+            show-select
+            :headers="headers"
+            :items="items"
+            item-key="id"
+          >
+          </v-data-table>
+          <template v-slot:[`item.action`]="{ item }">
+            <v-checkbox v-model="item.selected"></v-checkbox>
+          </template>
         </v-sheet>
       </v-col>
     </v-row>
@@ -23,8 +33,10 @@
 
 <script lang="ts">
 import { ref } from "vue";
+
 export default {
   setup() {
+    const selected: Array<any> = [];
     const headers = [
       {
         title: "ID",
@@ -70,6 +82,7 @@ export default {
     const dialog = ref(false);
 
     return {
+      selected,
       headers,
       items,
       dialog,
