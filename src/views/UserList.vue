@@ -1,7 +1,16 @@
 <template>
   <v-container>
-    <h3>UserList</h3>
-    {{ items.length }}件
+    <v-btn color="primary" @click="dialog = true"> Open Dialog </v-btn>
+    <v-dialog v-model="dialog" width="auto">
+      <v-card>
+        <v-card-text> test test test </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" block @click="dialog = false"
+            >Close Dialog</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
@@ -12,7 +21,8 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import { ref } from "vue";
 export default {
   setup() {
     const headers = [
@@ -56,9 +66,13 @@ export default {
         age: 12,
       },
     ];
+
+    const dialog = ref(false);
+
     return {
       headers,
       items,
+      dialog,
     };
   },
 };
