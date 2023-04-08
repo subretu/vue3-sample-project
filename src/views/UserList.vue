@@ -15,11 +15,13 @@
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
           <v-data-table
-            v-model="selected"
+            v-model="selectedItems"
             show-select
             :headers="headers"
             :items="items"
             item-key="id"
+            :single-select="false"
+            @select-all="selectAllRows"
           >
           </v-data-table>
           <template v-slot:[`item.action`]="{ item }">
@@ -36,8 +38,8 @@ import { ref } from "vue";
 
 export default {
   setup() {
-    const selected: Array<any> = [];
     const headers = [
+      { title: "", value: "selected", sortable: false },
       {
         title: "ID",
         key: "id",
@@ -56,33 +58,49 @@ export default {
         id: 1,
         name: "高田健志",
         age: 33,
+        selected: false,
       },
       {
         id: 2,
         name: "横山緑",
         age: 42,
+        selected: false,
       },
       {
         id: 4,
         name: "山崎イチゴ",
         age: 12,
+        selected: false,
       },
       {
         id: 5,
         name: "山田ニゴ",
         age: 16,
+        selected: false,
       },
       {
         id: 6,
         name: "山本一之進",
         age: 12,
+        selected: false,
       },
     ];
 
     const dialog = ref(false);
 
+    const selectedItems = ref([]);
+
+    const selectAllRows = (selected: boolean) => {
+      if (selected) {
+        selectedItems.value = items.value.slice();
+      } else {
+        selectedItems.value = [];
+      }
+    };
+
     return {
-      selected,
+      selectedItems,
+      selectAllRows,
       headers,
       items,
       dialog,
