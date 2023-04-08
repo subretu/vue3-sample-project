@@ -3,7 +3,7 @@
     <v-btn color="primary" @click="dialog = true"> Open Dialog </v-btn>
     <v-dialog v-model="dialog" width="auto">
       <v-card>
-        <v-card-text> test test test </v-card-text>
+        <v-card-text> {{ selectedItems }} </v-card-text>
         <v-card-actions>
           <v-btn color="primary" block @click="dialog = false"
             >Close Dialog</v-btn
@@ -19,12 +19,11 @@
             show-select
             :headers="headers"
             :items="items"
-            item-key="id"
+            item-value="items"
             :single-select="false"
-            @select-all="selectAllRows"
           >
           </v-data-table>
-          <template v-slot:[`item.action`]="{ item }">
+          <template v-slot:[`item.selected`]="{ item }">
             <v-checkbox v-model="item.selected"></v-checkbox>
           </template>
         </v-sheet>
@@ -36,24 +35,22 @@
 <script lang="ts">
 import { ref } from "vue";
 
+interface TableItem {
+  id: number;
+  name: string;
+  age: number;
+  selected: boolean;
+}
+
 export default {
   setup() {
     const headers = [
-      { title: "", value: "selected", sortable: false },
-      {
-        title: "ID",
-        key: "id",
-      },
-      {
-        title: "名前",
-        key: "name",
-      },
-      {
-        title: "年齢",
-        key: "age",
-      },
+      { title: "", key: "selected", sortable: false },
+      { title: "ID", key: "id" },
+      { title: "名前", key: "name" },
+      { title: "年齢", key: "age" },
     ];
-    const items = [
+    const items: TableItem[] = [
       {
         id: 1,
         name: "高田健志",
@@ -88,19 +85,10 @@ export default {
 
     const dialog = ref(false);
 
-    const selectedItems = ref([]);
-
-    const selectAllRows = (selected: boolean) => {
-      if (selected) {
-        selectedItems.value = items.value.slice();
-      } else {
-        selectedItems.value = [];
-      }
-    };
+    const selectedItems = ref<TableItem[]>([]);
 
     return {
       selectedItems,
-      selectAllRows,
       headers,
       items,
       dialog,
