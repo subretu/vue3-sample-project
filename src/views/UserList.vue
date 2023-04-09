@@ -3,11 +3,14 @@
     <v-btn color="primary" @click="dialog = true"> Open Dialog </v-btn>
     <v-dialog v-model="dialog" width="auto">
       <v-card>
-        <v-card-text> {{ selectedItems }} </v-card-text>
+        <v-card-text> {{ multiplication }} </v-card-text>
+        <v-text-field
+          label="Main input"
+          hide-details="auto"
+          v-model="inputNumber"
+        ></v-text-field>
         <v-card-actions>
-          <v-btn color="primary" block @click="dialog = false"
-            >Close Dialog</v-btn
-          >
+          <v-btn color="primary" block @click="closeDialog">Close Dialog</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -33,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 interface TableItem {
   id: number;
@@ -87,11 +90,28 @@ export default {
 
     const selectedItems = ref<TableItem[]>([]);
 
+    const inputNumber = ref<number>();
+
+    const multiplication = computed(() => {
+      const answer = selectedItems.value[0]?.id + 1;
+      return answer;
+    });
+
+    const closeDialog = (): void => {
+      dialog.value = false;
+      selectedItems.value[0].id = 0;
+      selectedItems.value[0].name = "";
+      selectedItems.value[0].age = 0;
+    };
+
     return {
       selectedItems,
+      inputNumber,
       headers,
       items,
       dialog,
+      closeDialog,
+      multiplication,
     };
   },
 };
