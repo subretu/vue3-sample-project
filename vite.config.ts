@@ -6,6 +6,9 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
 
+import dns from "dns";
+dns.setDefaultResultOrder("ipv4first");
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -29,7 +32,6 @@ export default defineConfig({
   },
   //CORSエラー対策
   server: {
-    port: 3000,
     proxy: {
       "/day": {
         target: "http://localhost:8000",

@@ -18,11 +18,9 @@
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
           <v-data-table
-            v-model="selectedItems"
             show-select
             :headers="headers"
-            :items="items"
-            item-value="items"
+            :items="viewData"
             :single-select="false"
           >
           </v-data-table>
@@ -36,7 +34,8 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
+import SampleApiService from "../services/SampleApiService";
 
 interface TableItem {
   id: number;
@@ -45,46 +44,46 @@ interface TableItem {
   selected: boolean;
 }
 
+type DataList = {
+  id?: string | null | undefined;
+  label?: string | null | undefined;
+  data?: number | null | undefined;
+};
+
+type ApiResponse = { data: DataList[] };
+
 export default {
   setup() {
     const headers = [
-      { title: "", key: "selected", sortable: false },
-      { title: "ID", key: "id" },
-      { title: "名前", key: "name" },
-      { title: "年齢", key: "age" },
-    ];
-    const items: TableItem[] = [
       {
-        id: 1,
-        name: "高田健志",
-        age: 33,
-        selected: false,
+        text: "ID",
+        value: "id",
       },
       {
-        id: 2,
-        name: "横山緑",
-        age: 42,
-        selected: false,
+        text: "日付",
+        value: "label",
       },
       {
-        id: 4,
-        name: "山崎イチゴ",
-        age: 12,
-        selected: false,
-      },
-      {
-        id: 5,
-        name: "山田ニゴ",
-        age: 16,
-        selected: false,
-      },
-      {
-        id: 6,
-        name: "山本一之進",
-        age: 12,
-        selected: false,
+        text: "合計値",
+        value: "data",
       },
     ];
+
+    const getDay = async () => {
+      const response = await SampleApiService.get();
+      return response.data;
+    };
+
+    const apiResponse = reactive<ApiResponse>({ data: [] });
+
+    const viewData = computed(() => {
+      return apiResponse.data;
+    });
+
+    const displayData = async () => {
+      const data = await getDay();
+      apiResponse.data = data;
+    };
 
     const dialog = ref(false);
 
@@ -104,11 +103,15 @@ export default {
       selectedItems.value[0].age = 0;
     };
 
+    onMounted(async () => {
+      await displayData();
+    });
+
     return {
       selectedItems,
       inputNumber,
       headers,
-      items,
+      viewData,
       dialog,
       closeDialog,
       multiplication,
