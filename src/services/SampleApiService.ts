@@ -5,6 +5,10 @@ class SampleApiService {
   get(): Promise<any> {
     return http.get("/day");
   }
+
+  get_userinfo(): Promise<any> {
+    return http.get("/userinfo");
+  }
 }
 
 export default new SampleApiService();

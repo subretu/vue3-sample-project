@@ -36,6 +36,9 @@ export default defineConfig({
       "/day": {
         target: "http://localhost:8000",
       },
+      "/userinfo": {
+        target: "http://localhost:8000",
+      },
     },
   },
 });

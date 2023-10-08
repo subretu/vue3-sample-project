@@ -53,6 +53,12 @@ export default {
       return response.data;
     };
 
+    const getUserInfo = async () => {
+      const response = await SampleApiService.get_userinfo();
+      console.log(response);
+      return response.data;
+    };
+
     const displayData = async () => {
       const data = await getDay();
       state.userList = data;
@@ -60,6 +66,7 @@ export default {
 
     onMounted(async () => {
       await displayData();
+      getUserInfo();
     });
 
     return {
