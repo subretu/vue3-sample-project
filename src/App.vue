@@ -3,6 +3,7 @@
     <v-app-bar color="primary" dark app clipped-left>
         <v-tabs>
           <v-tab to="/userlist">USERLIST</v-tab>
+          <v-tab to="/fileupload">FILEUPLOAD</v-tab>
         </v-tabs>
     </v-app-bar>
     <v-main>

@@ -7,6 +7,11 @@ const routes = [
     name: "userlist",
     component: () => import("../views/UserList.vue"),
   },
+  {
+    path: "/fileupload",
+    name: "fileupload",
+    component: () => import("../views/FileUpload.vue"),
+  },
 ];
 
 const router = createRouter({
