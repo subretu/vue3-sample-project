@@ -6,10 +6,13 @@
           <v-row>
             <v-col>
               <p>
-                <input type="file" accept="text/csv" @change="load_csv" />
+                <v-file-input
+                  label="ファイルを選択"
+                  @change="load_csv"
+                ></v-file-input>
               </p> </v-col
             ><v-col
-              ><v-btn variant="tonal" @click="displayLoading">
+              ><v-btn variant="tonal" class="mt-3" @click="displayLoading">
                 Upload
               </v-btn></v-col
             >
