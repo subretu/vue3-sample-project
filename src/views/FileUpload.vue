@@ -17,7 +17,11 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-snackbar v-model="state.snackbar" :timeout="timeout" color="primary"
+    <v-snackbar
+      v-model="state.snackbar"
+      :timeout="timeout"
+      color="green"
+      location="top right"
       >{{ state.snackbarMessage }}
       <template v-slot:actions>
         <v-btn variant="text" @click="state.snackbar = false"> Close </v-btn>
