@@ -114,8 +114,14 @@ export default {
         await SampleApiService.upload_csv({
           file: fileData.fileUrl,
         });
+        state.isLoading = false;
+        state.snackbarMessage = "Upload Success";
+        state.snackbar = true;
         console.log("Post OK");
       } catch (error) {
+        state.isLoading = false;
+        state.snackbarMessage = "Upload Error";
+        state.snackbar = true;
         console.log("error");
       }
     };
@@ -126,11 +132,6 @@ export default {
       state.isLoading = true;
 
       await uploadCsv();
-
-      state.isLoading = false;
-
-      state.snackbarMessage = "Upload Success";
-      state.snackbar = true;
     };
 
     return {
