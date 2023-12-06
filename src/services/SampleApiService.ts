@@ -9,6 +9,10 @@ class SampleApiService {
   get_userinfo(): Promise<any> {
     return http.get("/userinfo");
   }
+
+  upload_csv(data: any): Promise<any> {
+    return http.post("/uploadcsv", data);
+  }
 }
 
 export default new SampleApiService();

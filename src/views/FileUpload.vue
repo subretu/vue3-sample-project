@@ -42,6 +42,26 @@
 
 <script lang="ts">
 import { reactive, ref } from "vue";
+import SampleApiService from "../services/SampleApiService";
+
+type fileData = {
+  fileUrl: string[];
+};
+
+const get_data_url = async (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      const result = reader.result;
+      if (typeof result === "string") {
+        resolve(result);
+      } else {
+        reject(new Error("not string"));
+      }
+    });
+    reader.readAsDataURL(file);
+  });
+};
 
 export default {
   setup() {
@@ -49,6 +69,10 @@ export default {
       isLoading: false,
       snackbar: false,
       snackbarMessage: "",
+    });
+
+    const fileData = reactive<fileData>({
+      fileUrl: [],
     });
 
     const timeout = ref(3000);
@@ -68,7 +92,15 @@ export default {
         )
       );
 
-      console.log(files);
+      // CSVをBase64エンコード
+      for (let i = 0; i < selectedFile.files.length; i++) {
+        try {
+          const result = await get_data_url(selectedFile.files[i]);
+          fileData.fileUrl.push(result);
+        } catch (e) {
+          alert(`ERROR: ${e}`);
+        }
+      }
 
       selectedFile.value = "";
     };
@@ -77,14 +109,24 @@ export default {
       return data.split("\r\n").map((row) => row.split(","));
     };
 
-    const sleep = async (ms: number) =>
-      new Promise((res) => setTimeout(res, ms));
+    const uploadCsv = async () => {
+      try {
+        await SampleApiService.upload_csv({
+          file: fileData.fileUrl,
+        });
+        console.log("Post OK");
+      } catch (error) {
+        console.log("error");
+      }
+    };
 
     const displayLoading = async () => {
       state.snackbarMessage = "";
 
       state.isLoading = true;
-      await sleep(2000);
+
+      await uploadCsv();
+
       state.isLoading = false;
 
       state.snackbarMessage = "Upload Success";

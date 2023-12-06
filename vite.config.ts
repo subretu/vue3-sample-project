@@ -39,6 +39,9 @@ export default defineConfig({
       "/userinfo": {
         target: "http://localhost:8000",
       },
+      "/uploadcsv": {
+        target: "http://localhost:8000",
+      },
     },
   },
 });
