@@ -23,7 +23,7 @@
     <v-snackbar
       v-model="state.snackbar"
       :timeout="timeout"
-      color="green"
+      :color="state.snackbarColor"
       location="top right"
       >{{ state.snackbarMessage }}
       <template v-slot:actions>
@@ -69,13 +69,14 @@ export default {
       isLoading: false,
       snackbar: false,
       snackbarMessage: "",
+      snackbarColor: "green",
     });
 
     const fileData = reactive<fileData>({
       fileUrl: [],
     });
 
-    const timeout = ref(3000);
+    const timeout = ref(10000);
 
     const load_csv = async (event: Event) => {
       const selectedFile = event.target;
@@ -84,13 +85,6 @@ export default {
       if (selectedFile.files == null || selectedFile.files.length == 0) {
         return;
       }
-
-      // 読み込んだCSVファイルを配列に変換
-      const files = await Promise.all(
-        Array.from(selectedFile.files).map(async (f) =>
-          parseCSV(await f.text())
-        )
-      );
 
       // CSVをBase64エンコード
       for (let i = 0; i < selectedFile.files.length; i++) {
@@ -105,24 +99,24 @@ export default {
       selectedFile.value = "";
     };
 
-    const parseCSV = (data: string) => {
-      return data.split("\r\n").map((row) => row.split(","));
-    };
-
     const uploadCsv = async () => {
       try {
         await SampleApiService.upload_csv({
           file: fileData.fileUrl,
         });
         state.isLoading = false;
+
         state.snackbarMessage = "Upload Success";
+        state.snackbarColor = "blue";
+
         state.snackbar = true;
-        console.log("Post OK");
-      } catch (error) {
+      } catch (error: any) {
         state.isLoading = false;
-        state.snackbarMessage = "Upload Error";
+
+        state.snackbarMessage = error.response.data.message;
+        state.snackbarColor = "red";
+
         state.snackbar = true;
-        console.log("error");
       }
     };
 
