@@ -79,6 +79,8 @@ export default {
     const timeout = ref(10000);
 
     const load_csv = async (event: Event) => {
+      fileData.fileUrl = []
+
       const selectedFile = event.target;
 
       if (!(selectedFile instanceof HTMLInputElement)) return;
