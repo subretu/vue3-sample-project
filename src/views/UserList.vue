@@ -1,9 +1,9 @@
 <template>
-  <v-container fluid>
-    <v-dialog v-model="state.dialog" width="800">
+  <v-container>
+    <v-dialog v-model="state.dialog" width="900" scrollable>
       <v-card>
         <v-card-title class="headline">CSV Upload </v-card-title>
-        <v-card-text>
+        <v-card-text class="pa-5">
           <v-row>
             <v-col cols="10">
               <p>
@@ -22,9 +22,17 @@
       </v-card>
     </v-dialog>
     <v-row
-      ><v-col cols="11"></v-col
-      ><v-col cols="1"
-        ><v-btn variant="tonal" @click="openDialog"> CSV Upload </v-btn></v-col
+      ><v-col cols="10"></v-col
+      ><v-col cols="2">
+        <div class="text-end">
+          <v-btn
+            class="ml-2 truncate ml-auto"
+            variant="tonal"
+            @click="openDialog"
+          >
+            CSV Upload
+          </v-btn>
+        </div></v-col
       ></v-row
     >
     <v-row>
