@@ -10,6 +10,7 @@
                 <v-file-input
                   label="ファイルを選択"
                   @change="load_csv"
+                  v-model="state.files"
                 ></v-file-input>
               </p> </v-col
             ><v-col cols="2"
@@ -100,6 +101,7 @@ type state = {
   snackbarMessage: string;
   snackbarColor: string;
   isDisablelButton: boolean;
+  files: [];
 };
 
 type fileData = {
@@ -143,6 +145,7 @@ export default {
       snackbarMessage: "",
       snackbarColor: "green",
       isDisablelButton: true,
+      files: [],
     });
 
     const getUserInfo = async () => {
@@ -237,6 +240,10 @@ export default {
 
     watch(state, () => {
       if (!state.dialog) {
+        state.isDisablelButton = true;
+        state.files = [];
+      }
+      if (state.files.length == 0 && state.dialog) {
         state.isDisablelButton = true;
       }
     });
