@@ -13,7 +13,12 @@
                 ></v-file-input>
               </p> </v-col
             ><v-col cols="2"
-              ><v-btn variant="tonal" class="mt-3" @click="displayLoading">
+              ><v-btn
+                variant="tonal"
+                class="mt-3"
+                @click="displayLoading"
+                :disabled="state.isDisablelButton"
+              >
                 Upload
               </v-btn></v-col
             >
@@ -64,7 +69,7 @@
       location="top right"
       >{{ state.snackbarMessage }}
       <template v-slot:actions>
-        <v-btn variant="text" @click="state.snackbar = false"> Close </v-btn>
+        <v-btn variant="text" @click="closeSnackbar"> Close </v-btn>
       </template>
     </v-snackbar>
     <v-overlay
@@ -78,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, watch } from "vue";
 import SampleApiService from "../services/SampleApiService";
 
 type UserList = {
@@ -94,6 +99,7 @@ type state = {
   snackbar: boolean;
   snackbarMessage: string;
   snackbarColor: string;
+  isDisablelButton: boolean;
 };
 
 type fileData = {
@@ -136,6 +142,7 @@ export default {
       snackbar: false,
       snackbarMessage: "",
       snackbarColor: "green",
+      isDisablelButton: true,
     });
 
     const getUserInfo = async () => {
@@ -182,6 +189,8 @@ export default {
         try {
           const result = await get_data_url(selectedFile.files[i]);
           fileData.fileUrl.push(result);
+
+          state.isDisablelButton = false;
         } catch (e) {
           alert(`ERROR: ${e}`);
         }
@@ -201,6 +210,9 @@ export default {
         state.snackbarColor = "blue";
 
         state.snackbar = true;
+
+        state.dialog = false;
+        state.isDisablelButton = true;
       } catch (error: any) {
         state.isLoading = false;
 
@@ -219,6 +231,16 @@ export default {
       await uploadCsv();
     };
 
+    const closeSnackbar = () => {
+      state.snackbar = false;
+    };
+
+    watch(state, () => {
+      if (!state.dialog) {
+        state.isDisablelButton = true;
+      }
+    });
+
     onMounted(async () => {
       await displayData();
       getUserInfo();
@@ -232,6 +254,7 @@ export default {
       timeout,
       load_csv,
       displayLoading,
+      closeSnackbar,
     };
   },
 };
