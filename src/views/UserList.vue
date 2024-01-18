@@ -2,7 +2,14 @@
   <v-container>
     <v-dialog v-model="state.dialog" width="900" persistent scrollable>
       <v-card>
-        <v-card-title class="headline">CSV Upload </v-card-title>
+        <v-row>
+          <v-col cols="8">
+            <v-card-title class="text-h5">CSV Upload</v-card-title></v-col
+          ><v-spacer></v-spacer>
+          <v-col cols="1">
+            <v-btn icon="mdi-close" variant="plain" @click="closeDialog"> </v-btn
+          ></v-col>
+        </v-row>
         <v-card-text class="pa-5">
           <v-row>
             <v-col cols="10">
@@ -239,6 +246,10 @@ export default {
       state.snackbar = false;
     };
 
+    const closeDialog = () => {
+      state.dialog = false;
+    };
+
     watch(state, () => {
       if (!state.dialog) {
         state.isDisablelButton = true;
@@ -263,6 +274,7 @@ export default {
       load_csv,
       displayLoading,
       closeSnackbar,
+      closeDialog,
     };
   },
 };
