@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-dialog v-model="state.dialog" width="900" scrollable>
+    <v-dialog v-model="state.dialog" width="900" persistent scrollable>
       <v-card>
         <v-card-title class="headline">CSV Upload </v-card-title>
         <v-card-text class="pa-5">
@@ -11,11 +11,12 @@
                   label="ファイルを選択"
                   @change="load_csv"
                   v-model="state.files"
+                  accept=".csv"
                 ></v-file-input>
               </p> </v-col
             ><v-col cols="2"
               ><v-btn
-                variant="tonal"
+                variant="outlined"
                 class="mt-3"
                 @click="displayLoading"
                 :disabled="state.isDisablelButton"
@@ -33,7 +34,7 @@
         <div class="text-end">
           <v-btn
             class="ml-2 truncate ml-auto"
-            variant="tonal"
+            variant="outlined"
             @click="openDialog"
           >
             CSV Upload
