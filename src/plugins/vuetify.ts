@@ -7,8 +7,6 @@
 // Styles
 import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
-// VDataTableのインポートを新規追加
-import { VDataTable } from "vuetify/labs/VDataTable";
 
 // Composables
 import { createVuetify } from "vuetify";
@@ -24,8 +22,5 @@ export default createVuetify({
         },
       },
     },
-  },
-  components: {
-    VDataTable,
   },
 });
