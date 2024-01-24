@@ -54,7 +54,7 @@
         <v-sheet color="white" elevation="1">
           <v-data-table
             :headers="headers"
-            :items="state2.userList"
+            :items="state.userList"
             item-value="user_id"
             show-expand
             v-model:expanded="state.expanded"
@@ -112,10 +112,6 @@ type state = {
   files: [];
 }
 
-type state2 = {
-  userList: UserList[];
-};
-
 type fileData = {
   fileUrl: string[];
 };
@@ -160,10 +156,6 @@ export default {
       files: [],
     });
 
-    const state2 = ref<state2>({
-      userList: [],
-    });
-
     const getUserInfo = async () => {
       const response = await SampleApiService.get_userinfo();
       return response.data;
@@ -171,7 +163,7 @@ export default {
 
     const displayData = async () => {
       const data = await getUserInfo();
-      state2.value.userList = data;
+      state.userList = data;
     };
 
     const createDisplayExpandData = (role: any) => {
@@ -276,7 +268,6 @@ export default {
     return {
       headers,
       state,
-      state2,
       createDisplayExpandData,
       openDialog,
       timeout,
