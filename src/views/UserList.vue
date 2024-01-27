@@ -98,6 +98,7 @@ import SampleApiService from "../services/SampleApiService";
 type UserList = {
   userName: string;
   companyName: string;
+  role: string;
 };
 
 type state = {
