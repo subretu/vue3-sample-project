@@ -91,10 +91,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="closeDialog" variant="tonal"> キャンセル </v-btn>
+          <v-btn @click="closeDialog" variant="outlined"> キャンセル </v-btn>
           <v-btn
             @click="registerUserFormData"
-            variant="tonal"
+            variant="elevated"
             color="primary"
             :disabled="isDisablelButton"
           >
@@ -104,18 +104,12 @@
       </v-card>
     </v-dialog>
     <v-row
-      ><v-col cols="10"></v-col
-      ><v-col cols="2">
-        <div class="text-end">
-          <v-btn
-            class="ml-2 truncate ml-auto"
-            variant="outlined"
-            @click="openDialog"
-          >
-            ユーザー登録
-          </v-btn>
-        </div></v-col
-      ></v-row
+      ><v-spacer></v-spacer
+      ><v-col cols="5" class="text-end">
+        <v-btn color="primary" @click="openDialog">
+          ユーザー登録
+        </v-btn>
+      </v-col></v-row
     >
     <v-row>
       <v-col cols="12">
