@@ -260,17 +260,17 @@ const closeDialog = () => {
 };
 
 const registerUserFormData = () => {
-  console.log(state.userFormData);
-  console.log(state.userFormData.role.trim().length);
   state.dialog = false;
 };
 
 watch(state, () => {
   if (!state.dialog) {
-    console.log("test");
-  }
-  if (state.dialog) {
-    console.log("test");
+    state.userFormData.lastName = "";
+    state.userFormData.firstName = "";
+    state.userFormData.mailAddress = "";
+    state.userFormData.companyName = "";
+    state.userFormData.plantName = "";
+    state.userFormData.role = "";
   }
 });
 
