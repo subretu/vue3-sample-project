@@ -106,9 +106,7 @@
     <v-row
       ><v-spacer></v-spacer
       ><v-col cols="5" class="text-end">
-        <v-btn color="primary" @click="openDialog">
-          ユーザー登録
-        </v-btn>
+        <v-btn color="primary" @click="openDialog"> ユーザー登録 </v-btn>
       </v-col></v-row
     >
     <v-row>
@@ -253,8 +251,27 @@ const closeDialog = () => {
   state.dialog = false;
 };
 
-const registerUserFormData = () => {
-  state.dialog = false;
+const registerUserFormData = async () => {
+  try {
+    await SampleApiService.register_user({
+      data: state.userFormData,
+    });
+    state.isLoading = false;
+
+    state.snackbarMessage = "Upload Success";
+    state.snackbarColor = "blue";
+
+    state.snackbar = true;
+
+    state.dialog = false;
+  } catch (error: any) {
+    state.isLoading = false;
+
+    state.snackbarMessage = error.response.data.message;
+    state.snackbarColor = "red";
+
+    state.snackbar = true;
+  }
 };
 
 watch(state, () => {

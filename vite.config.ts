@@ -42,6 +42,9 @@ export default defineConfig({
       "/uploadcsv": {
         target: "http://localhost:8000",
       },
+      "/register-user": {
+        target: "http://localhost:8000",
+      },
     },
   },
 });

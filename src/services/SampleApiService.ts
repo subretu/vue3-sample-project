@@ -13,6 +13,10 @@ class SampleApiService {
   upload_csv(data: any): Promise<any> {
     return http.post("/uploadcsv", data);
   }
+
+  register_user(data: any): Promise<any> {
+    return http.post("/register-user", data);
+  }
 }
 
 export default new SampleApiService();
