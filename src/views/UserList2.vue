@@ -103,8 +103,16 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-row
-      ><v-spacer></v-spacer
+    <v-row>
+      <v-col>
+        <v-select
+          v-model="tag"
+          :items="tagList"
+          variant="solo-filled"
+          density="compact"
+        ></v-select
+      ></v-col>
+      <v-spacer></v-spacer
       ><v-col cols="5" class="text-end">
         <v-btn color="primary" @click="openDialog"> ユーザー登録 </v-btn>
       </v-col></v-row
@@ -146,8 +154,8 @@ import { reactive, ref, onMounted, watch, computed } from "vue";
 import SampleApiService from "../services/SampleApiService";
 
 type UserList = {
-  userName: string;
-  companyName: string;
+  user_name: string;
+  company_name: string;
   role: string;
 };
 
@@ -190,6 +198,11 @@ const state = reactive<State>({
   snackbarColor: "green",
 });
 
+const userListOriginal = ref<UserList[]>([]);
+
+const tag = ref("全て");
+const tagList = ref(["全て", "海産物株式会社", "浪速工業株式会社"]);
+
 const headers = [
   {
     title: "ユーザー名",
@@ -228,6 +241,7 @@ const getUserInfo = async () => {
 
 const displayData = async () => {
   const data = await getUserInfo();
+  userListOriginal.value = data;
   state.userList = data;
 };
 
@@ -274,6 +288,14 @@ const registerUserFormData = async () => {
   }
 };
 
+const filterByCompanyName = (
+  data: UserList[],
+  companyName: string
+): UserList[] => {
+  data = userListOriginal.value;
+  return data.filter((user) => user.company_name === companyName);
+};
+
 watch(state, () => {
   if (!state.dialog) {
     state.userFormData.lastName = "";
@@ -282,6 +304,14 @@ watch(state, () => {
     state.userFormData.companyName = "";
     state.userFormData.plantName = "";
     state.userFormData.role = "";
+  }
+});
+
+watch(tag, () => {
+  if (tag.value === "全て") {
+    state.userList = userListOriginal.value;
+  } else {
+    state.userList = filterByCompanyName(state.userList, tag.value);
   }
 });
 
