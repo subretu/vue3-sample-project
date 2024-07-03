@@ -152,6 +152,7 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted, watch, computed } from "vue";
 import SampleApiService from "../services/SampleApiService";
+import { useStorage } from '@vueuse/core'
 
 type UserList = {
   user_name: string;
@@ -200,8 +201,10 @@ const state = reactive<State>({
 
 const userListOriginal = ref<UserList[]>([]);
 
-const tag = ref("全て");
+const tag = ref("");
 const tagList = ref(["全て", "海産物株式会社", "浪速工業株式会社"]);
+
+const storedValue = useStorage('tag', tag.value)
 
 const headers = [
   {
@@ -308,6 +311,7 @@ watch(state, () => {
 });
 
 watch(tag, () => {
+  storedValue.value = tag.value;
   if (tag.value === "全て") {
     state.userList = userListOriginal.value;
   } else {
@@ -318,6 +322,7 @@ watch(tag, () => {
 onMounted(async () => {
   await displayData();
   getUserInfo();
+  tag.value = storedValue.value;
 });
 </script>
 <style scoped>
