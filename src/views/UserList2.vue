@@ -106,15 +106,19 @@
     <v-row>
       <v-col>
         <v-select
+          color="primary"
           v-model="tag"
           :items="tagList"
           variant="solo-filled"
           density="compact"
+          class="mb-n6"
         ></v-select
       ></v-col>
       <v-spacer></v-spacer
-      ><v-col cols="5" class="text-end">
-        <v-btn color="primary" @click="openDialog"> ユーザー登録 </v-btn>
+      ><v-col cols="8" class="text-end">
+        <v-btn color="primary" @click="openDialog" class="mb-n6">
+          ユーザー登録
+        </v-btn>
       </v-col></v-row
     >
     <v-row>
@@ -152,7 +156,7 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted, watch, computed } from "vue";
 import SampleApiService from "../services/SampleApiService";
-import { useStorage } from '@vueuse/core'
+import { useStorage } from "@vueuse/core";
 
 type UserList = {
   user_name: string;
@@ -204,7 +208,7 @@ const userListOriginal = ref<UserList[]>([]);
 const tag = ref("");
 const tagList = ref(["全て", "海産物株式会社", "浪速工業株式会社"]);
 
-const storedValue = useStorage('tag', tag.value)
+const storedValue = useStorage("tag", tag.value);
 
 const headers = [
   {
@@ -253,12 +257,6 @@ const openDialog = () => {
 };
 
 const timeout = ref(10000);
-
-const displayLoading = async () => {
-  state.snackbarMessage = "";
-
-  state.isLoading = true;
-};
 
 const closeSnackbar = () => {
   state.snackbar = false;
