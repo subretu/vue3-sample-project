@@ -206,7 +206,7 @@ const state = reactive<State>({
 const userListOriginal = ref<UserList[]>([]);
 
 const tag = ref("");
-const tagList = ref(["全て", "海産物株式会社", "浪速工業株式会社"]);
+const tagList = ref<string[]>([]);
 
 const storedValue = useStorage("tag", tag.value);
 
@@ -248,6 +248,15 @@ const getUserInfo = async () => {
 
 const displayData = async () => {
   const data = await getUserInfo();
+
+  // セレクトボックスの要素を作成
+  const companyNames = data.map(function (item) {
+    return item.company_name;
+  });
+  const uniqueCompanyNames: string[] = Array.from(new Set(companyNames));
+  uniqueCompanyNames.unshift("全て");
+  tagList.value = uniqueCompanyNames;
+
   userListOriginal.value = data;
   state.userList = data;
 };
@@ -319,7 +328,6 @@ watch(tag, () => {
 
 onMounted(async () => {
   await displayData();
-  getUserInfo();
   tag.value = storedValue.value;
 });
 </script>
