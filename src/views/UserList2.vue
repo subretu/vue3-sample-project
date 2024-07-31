@@ -128,10 +128,23 @@
             :headers="headers"
             :items="state.userList"
             item-value="user_id"
+            @click.right.prevent="clickRow"
           >
           </v-data-table>
         </v-sheet>
       </v-col>
+      <v-card
+        v-if="isShow"
+        v-bind:style="position"
+        class="mx-auto absolute"
+        max-width="300"
+      >
+        <v-list
+          :items="contextMenuItems"
+          item-title="name"
+          item-value="id"
+        ></v-list>
+      </v-card>
     </v-row>
     <v-snackbar
       v-model="state.snackbar"
@@ -183,6 +196,11 @@ type State = {
   snackbarColor: string;
 };
 
+type Position = {
+  top: string;
+  left: string;
+};
+
 const form = ref(null);
 const valid = ref(false);
 
@@ -222,6 +240,20 @@ const headers = [
 ];
 
 const items = ["閲覧者", "操作員", "管理者"];
+
+const contextMenuItems = [
+  {
+    name: "実行する",
+    id: 1,
+  },
+];
+
+const isShow = ref(false);
+
+const position = reactive<Position>({
+  top: "0px",
+  left: "0px",
+});
 
 const rules = {
   lastName: [(v: string) => 1 <= v.trim().length || "姓を入力してください"],
@@ -306,6 +338,16 @@ const filterByCompanyName = (
   return data.filter((user) => user.company_name === companyName);
 };
 
+const clickRow = (row: any) => {
+  console.log(row.pageY + " " + row.pageX);
+  //const result = confirm("今日はいい天気でしたね");
+  // OKのときはtrue
+  //console.log(result);
+  position.top = String(row.pageY) + "px";
+  position.left = String(row.pageX) + "px";
+  isShow.value = true;
+};
+
 watch(state, () => {
   if (!state.dialog) {
     state.userFormData.lastName = "";
@@ -334,6 +376,9 @@ onMounted(async () => {
 <style scoped>
 .input-filed {
   width: 100%;
+}
+.absolute {
+  position: absolute;
 }
 </style>
 >
