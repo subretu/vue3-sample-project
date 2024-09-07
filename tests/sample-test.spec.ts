@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("open dialog", async ({ page }) => {
+test("open dialog in userlist", async ({ page }) => {
   // timeoutの時間を変更
   test.setTimeout(60000);
 
