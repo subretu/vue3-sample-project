@@ -20,17 +20,21 @@ import {
   createViewWeek,
 } from "@schedule-x/calendar";
 import "@schedule-x/theme-default/dist/index.css";
+import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
+import { createResizePlugin } from "@schedule-x/resize";
 
 // Do not use a ref here, as the calendar instance is not reactive, and doing so might cause issues
 // For updating events, use the events service plugin
 const calendarApp = createCalendar({
   selectedDate: "2025-02-16",
+  locale: 'ja-JP',
   views: [
     createViewDay(),
     createViewWeek(),
     createViewMonthGrid(),
     createViewMonthAgenda(),
   ],
+  plugins: [createDragAndDropPlugin(), createResizePlugin()],
   events: [
     {
       id: 1,
@@ -51,6 +55,7 @@ const calendarApp = createCalendar({
 .input-filed {
   width: 100%;
 }
+
 .absolute {
   position: absolute;
 }

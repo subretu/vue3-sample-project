@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "@schedule-x/drag-and-drop": "^2.19.0",
+    "@schedule-x/resize": "^2.19.0",
     "@schedule-x/theme-default": "^2.19.0",
     "@schedule-x/vue": "^2.17.0",
     "@vueuse/core": "^10.11.0",
