@@ -5,6 +5,7 @@
           <v-tab to="/userlist">USERLIST</v-tab>
           <v-tab to="/fileupload">FILEUPLOAD</v-tab>
           <v-tab to="/userlist2">USERLIST2</v-tab>
+          <v-tab to="/calendar">CALENDAR</v-tab>
         </v-tabs>
     </v-app-bar>
     <v-main>
